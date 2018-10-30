@@ -27,6 +27,10 @@ ide.proto.Document = {__index = {
     if ide.config.editor.showtabtooltip and ide:IsValidProperty(notebook, "SetPageToolTip") then
       notebook:SetPageToolTip(self.index, self:GetFilePath() or text or self:GetTabText())
     end
+    if ide.config.editor.showtabicon then
+      notebook:SetPageBitmap(self.index,
+        ide:CreateFileIcon(GetFileExt(self:GetFilePath() or text or self:GetTabText())))
+    end
   end,
   GetTabText = function(self)
     if self.index == nil then return self.fileName end
