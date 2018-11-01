@@ -392,6 +392,7 @@ local function treeSetConnectorsAndIcons(tree)
     local sourcedocs = isnew and {} or (isdir
       and ide:FindDocumentsByPartialPath(source)
       or {ide:FindDocument(source)})
+    local targetdoc = ide:FindDocument(target)
 
     for _, doc in ipairs(sourcedocs) do
       local fullpath = doc:GetFilePath()
@@ -407,8 +408,8 @@ local function treeSetConnectorsAndIcons(tree)
       if doc:IsActive() then doc:SetActive() end
     end
 
-    local targetdoc = ide:FindDocument(target)
-    if targetdoc then targetdoc:Close() end
+    -- close the target document, since the source has already been updated for it
+    if targetdoc and #sourcedocs > 0 then targetdoc:Close() end
 
     local itemdst = tree:FindItem(target)
     if itemdst then
